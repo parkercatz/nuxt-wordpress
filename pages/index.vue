@@ -8,6 +8,14 @@
         <div v-for="post in posts" :key="post.id" class="post">
           <h3>{{ post.title.rendered }}</h3>
           <div class="post-content" v-html="post.excerpt.rendered" />
+          <nuxt-link
+            :to="{
+              name: 'slug',
+              params: { slug: post.slug, id: post.id },
+            }"
+          >
+            Read More
+          </nuxt-link>
         </div>
       </div>
     </div>
