@@ -7,6 +7,7 @@
         <h2>記事一覧</h2>
         <div v-for="post in posts" :key="post.id" class="post">
           <h3>{{ post.title.rendered }}</h3>
+          <div class="post-content" v-html="post.excerpt.rendered"></div>
         </div>
       </div>
     </div>
