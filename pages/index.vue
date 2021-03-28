@@ -3,30 +3,35 @@
     <div>
       <Logo />
       <h1 class="title">nuxt-wordpress</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <div class="posts">
+        <h2>記事一覧</h2>
+        <div v-for="post in posts" :key="post.id" class="post">
+          <h3>{{ post.title.rendered }}</h3>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+export default {
+  fetch({ store }) {
+    return axios
+      .get('http://nuxtwordpress.local/wp-json/wp/v2/posts')
+      .then((res) => {
+        store.commit('frontPagePosts', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  computed: {
+    posts() {
+      return this.$store.state.posts
+    },
+  },
+}
 </script>
 
 <style>
