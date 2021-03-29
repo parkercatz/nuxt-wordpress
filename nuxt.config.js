@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -36,4 +38,19 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  generate: {
+    routes: () => {
+      return axios
+        .get('http://nuxtwordpress.local/wp-json/wp/v2/posts')
+        .then((res) => {
+          return res.data.map((post) => {
+            return {
+              route: `${post.slug}`,
+              payload: post,
+            }
+          })
+        })
+    },
+  },
 }

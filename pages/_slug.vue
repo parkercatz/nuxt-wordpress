@@ -12,14 +12,20 @@
 <script>
 import axios from 'axios'
 export default {
-  async asyncData({ params }) {
-    return await axios
-      .get('http://nuxtwordpress.local/wp-json/wp/v2/posts/' + params.id)
-      .then((res) => {
-        return {
-          post: res.data,
-        }
-      })
+  async asyncData({ params, payload }) {
+    if (payload) {
+      return {
+        post: payload,
+      }
+    } else {
+      return await axios
+        .get(`http://nuxtwordpress.local/wp-json/wp/v2/posts/${params.id}`)
+        .then((res) => {
+          return {
+            post: res.data,
+          }
+        })
+    }
   },
   data() {
     return {
